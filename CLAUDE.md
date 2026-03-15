@@ -107,6 +107,8 @@ ROUTING:
   
   /docs
     CREATIVE_BIBLE.md       ← master reference (all agents read)
+    NOCODB_SCHEMA.md        ← NocoDB tables & API
+    NOCODB_MCP.md           ← NocoDB MCP server setup
     
   /agents
     DIRECTOR.md             ← treatment generation
