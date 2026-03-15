@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+.next/
+.pnp/
+.pnp.js
+
+# Python (uv)
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.uv/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Generated outputs (large binaries)
+outputs/grids/
+outputs/shots/
+outputs/training-set/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+*.pem
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE / Editor
+.idea/
+.vscode/
+*.sublime-*
+
+# Logs
+*.log
+logs/
+
+# ComfyUI / AI tooling (when run locally)
+comfyui/output/
+*.ckpt
+*.safetensors
+
+# Cursor (project-local)
+.cursor/
+skills-lock.json
+
+# Temp / cache
+.cache/
+tmp/
+temp/
+*.tmp

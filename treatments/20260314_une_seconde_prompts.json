@@ -1,0 +1,124 @@
+{
+  "treatment_id": "20260314_une_seconde",
+  "generated_at": "2026-03-14T00:00:00Z",
+  "agent": "CINEMATOGRAPHER.md v1.0",
+  "model_config": {
+    "primary_model": "nano-banana-pro",
+    "iteration_model": "nano-banana-2",
+    "local_fallback": "flux-1-dev-nvfp4",
+    "aspect_ratio": "21:9",
+    "resolution": "4K",
+    "character_references": [],
+    "character_reference_note": "No reference images provided. Character descriptions repeated verbatim across all shots for maximum consistency.",
+    "batch_size_standard": 3,
+    "batch_size_pivot": 8
+  },
+  "character_strings": {
+    "A": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear",
+    "B": "man, early 30s, dark jacket collar turned up, hands in coat pockets, slightly disheveled dark hair"
+  },
+  "grade_string": "teal shadows, warm amber highlights, desaturated overall, lifted blacks, medium film grain, cinematic DI grade",
+  "negative_prompt_universal": "circular bokeh, spherical lens, digital noise, overexposed, blown highlights, flat lighting, centered symmetrical composition, stock photo, AI generated look, oversaturated, vivid colors, HDR, text, watermark, blurry subject, broken anatomy, extra limbs",
+  "shots": [
+    {
+      "shot_number": 1,
+      "screen_position": 1,
+      "title": "The platform, empty",
+      "characters_present": [],
+      "batch_size": 3,
+      "prompt": "Empty metro station platform at 2am, no people, fluorescent overhead tube lighting cool 5600K mixed with warm amber safety lighting 2700K, wet reflective concrete floor perfectly doubling the ceiling and lights, distant signal lights with oval elliptical bokeh, anamorphic extreme wide shot, 2.39:1 letterbox, horizontal lens flare from overhead fluorescent fixture left edge, chromatic aberration at frame edges, platform geometry fills the frame, train tracks visible, teal shadows warm amber highlights, desaturated overall, lifted blacks, medium film grain, cinematic still",
+      "negative_prompt": "circular bokeh, people, movement, overexposed, flat lighting, digital noise, text, watermark",
+      "generation_notes": "This shot and shot 07 should feel like twins — same framing, same lens, but shot 07 has a few scattered people and an idling train. When generating both, use identical prompt structure and vary only the human presence. Generate shot 01 first and use it as a style reference for shot 07.",
+      "energy_direction": "The image's energy comes entirely from the geometry — the wet floor doubling the architecture, the receding perspective of the platform, the lonely signal lights dissolving into oval bokeh. Nothing moves. The tension is in the emptiness."
+    },
+    {
+      "shot_number": 2,
+      "screen_position": 2,
+      "title": "Her face",
+      "characters_present": ["A"],
+      "batch_size": 3,
+      "prompt": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear, seated on metro bench late night, face illuminated by harsh fluorescent overhead light and warm amber practical spill from right, expression neutral and still — the stillness that comes after something ends — eyes not focused on anything in the station, earbud cable catches small point of light, anamorphic close shot, 2.39:1 letterbox, oval elliptical bokeh on metro station background, shallow depth of field, slight handheld camera breathe, teal shadows warm amber highlights, desaturated overall, lifted blacks, medium film grain, cinematic portrait",
+      "negative_prompt": "circular bokeh, crying, overt emotion, smiling, looking at camera, harsh flash, overexposed, flat lighting, deep focus background, digital noise, text, watermark",
+      "generation_notes": "The key here is the expression — not sad, not stoic, just absent. The eyes should be open but unfocused. Avoid any expression that reads as a specific emotion. The coat collar should be up slightly. The dangling earbud is the visual detail that connects this shot to shots 08 and 09 — make sure it's clearly visible.",
+      "energy_direction": "Energy comes from the contrast between her stillness and the dangling earbud — one thing hanging, slightly in motion, against a face that is completely still. The bokeh should feel like the world has withdrawn."
+    },
+    {
+      "shot_number": 3,
+      "screen_position": 3,
+      "title": "The last moment together",
+      "characters_present": ["A", "B"],
+      "batch_size": 3,
+      "prompt": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear, and man, early 30s, dark jacket collar turned up, hands in coat pockets, slightly disheveled dark hair, standing together at metro platform edge, arriving train flooding warm amber light from windows into frame, her face sharp in focus he is slightly soft depth of field, natural easy conversation, the moment before goodbye that neither knows is goodbye, anamorphic medium wide shot, 2.39:1 letterbox, warm amber from train windows dominant, station fluorescent cool behind them, oval elliptical bokeh on station background figures, teal shadows warm amber highlights, desaturated overall, lifted blacks, medium film grain, cinematic",
+      "negative_prompt": "circular bokeh, kiss, embrace, dramatic pose, looking at camera, crying, full darkness, overexposed train light, digital noise, text, watermark",
+      "generation_notes": "The warmest shot in the sequence — the train light floods everything with amber. This is the counterpoint to shot 01's cool emptiness. The temperature shift is intentional and should be maximized. Both characters visible, her slightly sharper. The easy intimacy of their body language is critical — nothing dramatic, just two people in comfortable conversation.",
+      "energy_direction": "The energy is in the arriving train light — it's moving into frame, even if implied. The warm flood of light creates direction and warmth. Their body language should have a slight lean toward each other without touching."
+    },
+    {
+      "shot_number": 4,
+      "screen_position": 4,
+      "title": "Them in motion — the peak of it",
+      "characters_present": ["A", "B"],
+      "batch_size": 3,
+      "prompt": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud in one ear, and man, early 30s, dark jacket collar turned up, one earbud in his ear, dancing spontaneously and joyfully in nearly empty metro station at night, they share earbuds from the same phone, mid-movement natural not choreographed, warm overhead practical lighting, station architecture and platform visible behind them, idling train on far track soft in oval elliptical bokeh, anamorphic wide shot, 2.39:1 letterbox, station space used fully in the wide frame, teal shadows warm amber highlights, desaturated overall, lifted blacks, medium film grain, cinematic wide, natural movement",
+      "negative_prompt": "circular bokeh, staged dancing, ballet, choreographed pose, looking at camera, kiss, embrace, crowded station, overexposed, flat lighting, digital noise, text, watermark",
+      "generation_notes": "The most joyful image in the sequence and the one that will hit hardest given context. The wide frame should show the station existing around them — they're not filling the frame, the space is. This is intentional. Their joy is small inside the large geometry of the station. The idling train in the background in oval bokeh anchors the location. Movement should feel loose and natural — not ballet, not music video choreography. Just two people who found themselves in the same song.",
+      "energy_direction": "Energy from movement — hair, coat, arms mid-swing. The station is still around them. Their motion against the architectural stillness creates the tension."
+    },
+    {
+      "shot_number": 5,
+      "screen_position": 5,
+      "title": "Two reflections merge — then separate",
+      "characters_present": ["A", "B"],
+      "batch_size": 8,
+      "prompt": "extreme close-up of dark metro train window glass, two human face reflections overlapping and merging in the glass for one brief moment, ghostly double exposure effect through the train window, the reflection of woman, late 20s, dark hair pulled back loosely and man, early 30s, dark jacket, their reflections becoming one composite face briefly then separating as the train moves, station fluorescent lights and amber safety lights visible as streaks through and behind the glass, oval elliptical bokeh on peripheral elements, anamorphic extreme close shot, 2.39:1 letterbox, heavy film grain, desaturated with warm tones in the reflections themselves, cool teal in the glass, cinematic abstraction — this is a reflection in glass not a composite image",
+      "negative_prompt": "circular bokeh, direct shot of faces not reflection, photoshop composite, digital manipulation aesthetic, clean glass, overexposed, bright daylight, crowded, text, watermark, horror aesthetic",
+      "generation_notes": "THE PIVOT SHOT. This gets 8 variants — select the best. The key technical challenge: it must read as a genuine reflection in glass, not a digital composite. The glass itself should be dark and slightly imperfect — some distortion, some condensation possibly. The station lights seen through the glass add depth. The moment of overlap where two faces become one is the precise image — not before, not after. If the model produces clean composites that look manipulated, add to negative: 'photoshop, digital manipulation, clean composite'. The reflection should feel accidental and real.",
+      "energy_direction": "The energy IS the image — two things becoming one and then separating. The glass itself is the subject. Everything else dissolves into bokeh."
+    },
+    {
+      "shot_number": 6,
+      "screen_position": 6,
+      "title": "Both heading somewhere",
+      "characters_present": ["B"],
+      "batch_size": 3,
+      "prompt": "man, early 30s, dark jacket collar turned up, hands in coat pockets, slightly disheveled dark hair, walking purposefully through wet city street at night, wet pavement reflecting neon signs and streetlights in warm puddles, slightly ahead of midframe walking away from camera angle, city at night around him, anamorphic medium shot, 2.39:1 letterbox, oval elliptical bokeh on out-of-focus traffic and distant city lights, chromatic aberration at edges, teal shadows warm amber highlights, desaturated overall, lifted blacks, medium film grain, cinematic, he is unaware of where he is heading",
+      "negative_prompt": "circular bokeh, looking at camera, smiling, bright daylight, indoor, subway, overexposed, flat lighting, digital noise, text, watermark",
+      "generation_notes": "This is the exterior shot — the only above-ground image in the sequence. The wet city street creates the link to the metro station's wet floor. Use this visual echo intentionally. Generate this as character B alone, moving through the city. The woman (character A) is implied in the second half of this narrative beat — descending into the station — but for the image itself, focus on him in the street. The city is doing its thing around him.",
+      "energy_direction": "Walking creates inherent directional energy — his movement pulls the eye. The wet pavement reflections add a second layer of movement. He should be slightly off-center, moving toward one side of frame."
+    },
+    {
+      "shot_number": 7,
+      "screen_position": 7,
+      "title": "The platform before either exists in it",
+      "characters_present": [],
+      "batch_size": 3,
+      "prompt": "Metro station platform late night, three or four scattered passengers waiting in distance, wet reflective concrete floor, train idling at platform emitting warm amber light from windows, fluorescent overhead lighting, same platform geometry as the opening shot, anamorphic wide shot, 2.39:1 letterbox, distant passengers in oval elliptical bokeh, horizontal lens flare from overhead fluorescent, chromatic aberration at edges, teal shadows warm amber highlights, desaturated overall, lifted blacks, medium film grain, cinematic, neither main character present, the world before they arrived",
+      "negative_prompt": "circular bokeh, main characters present, crowded, movement blur, overexposed, flat lighting, digital noise, text, watermark",
+      "generation_notes": "Deliberately echoes shot 01 in composition — same wide frame, same station geometry, same lens character. The difference is: a few background figures in the far distance (in bokeh, not sharp), and the train idling at the platform. If shot 01 was generated with a specific composition, match it here and add the train and distant figures. This visual rhyme is important — the audience should feel the connection between shots 01 and 07 without being told.",
+      "energy_direction": "The idling train is the energy source here — its warm light spills onto the platform, creating the warmth that shot 01 lacks. The few distant figures in bokeh add human presence without dominating. Platform geometry creates the same receding perspective as shot 01."
+    },
+    {
+      "shot_number": 8,
+      "screen_position": 8,
+      "title": "The almost",
+      "characters_present": ["A", "B"],
+      "batch_size": 3,
+      "prompt": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear, standing still on metro platform facing away or three-quarter turned, man, early 30s, dark jacket collar turned up, hands in coat pockets, slightly disheveled dark hair, entering frame from behind her not yet seeing her, slight slow motion quality, warm overhead platform lighting, the moment just before contact — one second away from the encounter, anamorphic close shot, 2.39:1 letterbox, she sharp in focus he enters slightly soft in background, oval elliptical bokeh on station behind both, teal shadows warm amber highlights, desaturated overall, lifted blacks, medium film grain, cinematic, tension without drama",
+      "negative_prompt": "circular bokeh, they are looking at each other, touching, eye contact, running, dramatic movement, overexposed, flat lighting, digital noise, text, watermark",
+      "generation_notes": "The critical element: they must not yet have made eye contact. She is not looking at him. He has not yet noticed her. This is the moment before. The dangling earbud (character A's recurring detail) should be visible — it's the thing he is about to hear. Her stillness against the slight movement of him entering the frame creates the energy. The 'slow motion quality' is achieved through the framing and stillness, not actual motion blur.",
+      "energy_direction": "Direction: his movement into frame from one side, her stillness facing slightly away. Two vectors — one moving, one still. The tension is entirely between those two states."
+    },
+    {
+      "shot_number": 9,
+      "screen_position": 9,
+      "title": "He stops. He hears it. The first meeting.",
+      "characters_present": ["A", "B"],
+      "batch_size": 3,
+      "prompt": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear, and man, early 30s, dark jacket collar turned up, hands in coat pockets, slightly disheveled dark hair, making first eye contact on metro platform, he has just heard music from her dangling earbud and stopped mid-step, moment of pure mutual recognition and potential, neither smiling yet — something before smiling, faces close in the anamorphic wide frame, the dangling earbud visible between them as a physical object, warm fluorescent overhead light, anamorphic close shot, 2.39:1 letterbox, oval elliptical bokeh on station behind both faces, teal shadows warm amber highlights, desaturated overall, lifted blacks, medium film grain, held cinematic moment — pure potential",
+      "negative_prompt": "circular bokeh, kissing, embracing, laughing, dramatic gesture, looking at camera, crying, overexposed, flat lighting, digital noise, text, watermark",
+      "generation_notes": "The last shot — the first moment. The expression is everything: not yet a smile, not yet anything named. The recognition before the recognition has words. Both faces should be in the frame together, close but not touching. The dangling earbud should be visible in the space between them — it's the object that caused everything and it should be in this frame as a small but legible detail. This shot holds in the commercial — generate at least one variant where both faces have slightly more space around them to allow for the duration of the hold.",
+      "energy_direction": "The image's energy is entirely internal — two people looking at each other, the electricity before contact. No physical movement. The tension is entirely in the space between their faces and the earbud hanging in that space."
+    }
+  ],
+  "cinematographer_notes": "Shot 05 (the pivot) gets 8 variants — this is non-negotiable. It is the most technically demanding and the most important image in the sequence. All other shots get 3 variants minimum. Character string A must appear verbatim in shots 02, 03, 04, 05, 08, 09. Character string B must appear verbatim in shots 03, 04, 05, 06, 08, 09. Do not paraphrase or abbreviate the character strings — exact repetition is how NB Pro maintains consistency across shots. The grade string 'teal shadows, warm amber highlights, desaturated overall, lifted blacks, medium film grain' appears in every single shot prompt. If generating locally with FLUX-1-dev NVFP4, add to negative on all shots: 'circular bokeh, spherical lens look, digital clean, oversharpened, noise-free, noiseless'. The wet floor in shots 01 and 07 is a deliberate visual echo — if shots are generated separately, note this connection for the grid assembler."
+}

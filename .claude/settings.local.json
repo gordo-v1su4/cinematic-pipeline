@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find c:/Users/Gordo/Documents/Github/cinematic-pipeline/frontend -path */api/* -type f)",
+      "Bash(curl -s \"https://context7.com/api/v2/libs/search?libraryName=robyn&query=python+web+framework+routing\")"
+    ]
+  }
+}

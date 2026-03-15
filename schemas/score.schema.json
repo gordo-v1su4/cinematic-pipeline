@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Score",
+  "description": "Evaluation output from the Judge agent",
+  "type": "object",
+  "required": ["treatment_id", "evaluated_at", "per_image", "sequence", "overall"],
+  "properties": {
+    "treatment_id": { "type": "string" },
+    "evaluated_at": { "type": "string", "format": "date-time" },
+    "evaluation_model_per_image": {
+      "type": "string",
+      "default": "qwen2-vl-7b"
+    },
+    "evaluation_model_sequence": {
+      "type": "string",
+      "default": "claude-sonnet-4-5"
+    },
+    "per_image": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "required": [
+          "shot_number",
+          "anamorphic_fidelity",
+          "lighting_quality",
+          "color_grade",
+          "subject_sharpness",
+          "framing"
+        ],
+        "properties": {
+          "shot_number": { "type": "integer" },
+          "is_pivot_shot": { "type": "boolean", "default": false },
+          "anamorphic_fidelity": { "type": "number", "minimum": 1, "maximum": 5 },
+          "lighting_quality": { "type": "number", "minimum": 1, "maximum": 5 },
+          "color_grade": { "type": "number", "minimum": 1, "maximum": 5 },
+          "subject_sharpness": { "type": "number", "minimum": 1, "maximum": 5 },
+          "framing": { "type": "number", "minimum": 1, "maximum": 5 },
+          "pivot_shot_score": {
+            "type": ["number", "null"],
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Only scored if is_pivot_shot: true"
+          },
+          "per_image_average": { "type": "number" },
+          "failure_axes": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "sequence": {
+      "type": "object",
+      "required": [
+        "shot_variety",
+        "character_consistency",
+        "lighting_continuity",
+        "color_continuity",
+        "narrative_flow"
+      ],
+      "properties": {
+        "shot_variety": { "type": "number", "minimum": 1, "maximum": 5 },
+        "character_consistency": { "type": "number", "minimum": 1, "maximum": 5 },
+        "lighting_continuity": { "type": "number", "minimum": 1, "maximum": 5 },
+        "color_continuity": { "type": "number", "minimum": 1, "maximum": 5 },
+        "narrative_flow": { "type": "number", "minimum": 1, "maximum": 5 },
+        "sequence_average": { "type": "number" },
+        "notes": { "type": "string" }
+      }
+    },
+    "overall": {
+      "type": "object",
+      "required": ["pass", "recommended_action", "training_set_eligible", "pivot_shot_eligible"],
+      "properties": {
+        "pass": { "type": "boolean" },
+        "blocking_axes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "top_failure": {
+          "type": ["string", "null"]
+        },
+        "recommended_action": {
+          "type": "string",
+          "enum": ["approve", "optimizer", "regenerate", "human_review"]
+        },
+        "training_set_eligible": { "type": "boolean" },
+        "pivot_shot_eligible": { "type": "boolean" }
+      }
+    },
+    "optimization_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "cycle": { "type": "integer" },
+          "shot_number": { "type": "integer" },
+          "axis_targeted": { "type": "string" },
+          "score_before": { "type": "number" },
+          "change_made": { "type": "string" },
+          "score_after": { "type": ["number", "null"] },
+          "result": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

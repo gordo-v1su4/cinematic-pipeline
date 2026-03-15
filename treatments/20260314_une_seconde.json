@@ -1,0 +1,192 @@
+{
+  "id": "20260314_une_seconde",
+  "title": "Une Seconde / One Second",
+  "tagline": "A story told in reverse. The ending is the beginning. The beginning is unbearable.",
+  "version": 1,
+  "created_at": "2026-03-14T00:00:00Z",
+  "variables": {
+    "structure": "A",
+    "structure_name": "Reverse",
+    "collision": "audible",
+    "director_tone": "hybrid",
+    "director_tone_notes": "Glazer primary (dread and beauty, indifferent world) / Jeunet secondary (fate as machine, city complicit in the encounter)",
+    "product_mode": "pure",
+    "product": null,
+    "h_augment": null
+  },
+  "characters": [
+    {
+      "id": "A",
+      "quality": "still",
+      "relationship": "passing through",
+      "emotional_note": "the kind of still that comes after something ends",
+      "recurring_detail": "one earbud in, one dangling",
+      "physical_description": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear",
+      "reference_image_path": null
+    },
+    {
+      "id": "B",
+      "quality": "restless",
+      "relationship": "passing through",
+      "emotional_note": "somewhere between places, not quite arrived",
+      "recurring_detail": "collar turned up, hands in pockets",
+      "physical_description": "man, early 30s, dark jacket collar turned up, hands in coat pockets, slightly disheveled",
+      "reference_image_path": null
+    }
+  ],
+  "location": {
+    "type": "transit",
+    "specific_place": "Metro station, late night. Platform nearly empty. Fluorescent overhead tubes casting a cool clinical light mixed with warm amber from distant safety lighting. The floor is wet — rain tracked in from outside. Reflective concrete surface doubles everything. A train idles on the far track.",
+    "light_sources": [
+      "fluorescent overhead tubes (cool, 5600K)",
+      "amber safety lighting (warm, 2700K)",
+      "train window light (warm, intermittent)",
+      "distant signal lights (colored)"
+    ],
+    "time": "2:00am",
+    "atmospheric": "wet",
+    "grade_deviation": null
+  },
+  "pivot_shot": {
+    "concept": "Two reflections overlap in the dark glass of a train window for exactly one second as it moves past — two faces becoming one — then separate as the train continues.",
+    "screen_position": 5
+  },
+  "shots": [
+    {
+      "shot_number": 1,
+      "screen_position": 1,
+      "narrative_position": 9,
+      "is_pivot_shot": false,
+      "shot_type": "extreme wide",
+      "camera_movement": "static",
+      "title": "The platform, empty",
+      "narrative_function": "Establish the world after everything has happened. The audience doesn't know they're at the end of the story yet.",
+      "emotional_function": "Unease without explanation. Something is present in its absence.",
+      "description": "The metro station at 2am. Fluorescent tubes overhead. The platform is wet. No one. Just the geometry of the place. The frame holds until it almost hurts.",
+      "anamorphic_notes": "Maximum 2.39:1 width used. Oval bokeh visible on distant signal lights. Subtle horizontal lens flare from the fluorescent fixtures. Chromatic aberration at frame edges. Wet floor doubles the frame perfectly.",
+      "prompt_brief": "Empty metro platform, 2am, fluorescent and amber mixed light, wet reflective concrete floor doubling the space, anamorphic extreme wide shot, 2.39:1 letterbox, oval bokeh on distant signal lights, horizontal lens flare from overhead fluorescent, chromatic aberration at edges, no people, film grain medium, desaturated teal shadows warm amber highlights, lifted blacks, cinematic still",
+      "characters_present": []
+    },
+    {
+      "shot_number": 2,
+      "screen_position": 2,
+      "narrative_position": 8,
+      "is_pivot_shot": false,
+      "shot_type": "close",
+      "camera_movement": "handheld breathe",
+      "title": "Her face",
+      "narrative_function": "We find her. She's the aftermath. The audience now has someone to inhabit.",
+      "emotional_function": "The kind of still that comes after. Not sadness — something past it.",
+      "description": "She's sitting on a bench at the far end. One earbud in, one dangling. The song is playing faintly. She doesn't know we're watching. Her eyes aren't focused on anything in the station.",
+      "anamorphic_notes": "Shallow depth of field — her face sharp, the platform dissolves behind her into oval bokeh. The dangling earbud catches a small point of light. Slight handheld breathe — camera alive but not moving.",
+      "prompt_brief": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear, seated on metro bench late night, face lit by harsh fluorescent overhead and warm amber spill, expression neutral and distant, eyes unfocused, anamorphic close shot, 2.39:1 letterbox, oval bokeh background station, film grain medium, teal shadows warm amber highlights, intimate, cinematic",
+      "characters_present": ["A"]
+    },
+    {
+      "shot_number": 3,
+      "screen_position": 3,
+      "narrative_position": 7,
+      "is_pivot_shot": false,
+      "shot_type": "medium wide",
+      "camera_movement": "slow push",
+      "title": "The last moment together — neither knows it",
+      "narrative_function": "We are slightly earlier. They're still together. The train is arriving. He steps on. She stays. The doors close.",
+      "emotional_function": "The devastating ordinary. Neither knows this is the last look.",
+      "description": "They stand near the platform edge. A train approaches — felt before seen, air pressure changing. He says something. She smiles. He steps onto the train. She stays on the platform. The doors close. He doesn't look back.",
+      "anamorphic_notes": "Warm light flooding from the arriving train windows — the warmest shot in the sequence. Her face sharp, him soft, then both in frame for one beat as doors close.",
+      "prompt_brief": "man, early 30s, dark jacket collar turned up, hands in coat pockets and woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear, standing at metro platform edge, train arriving flooding warm amber light, she is sharp he is slightly soft, conversation natural and easy, the moment before goodbye, anamorphic medium wide shot, 2.39:1 letterbox, oval bokeh station background, warm amber from train windows, film grain, teal shadows warm amber highlights",
+      "characters_present": ["A", "B"]
+    },
+    {
+      "shot_number": 4,
+      "screen_position": 4,
+      "narrative_position": 5,
+      "is_pivot_shot": false,
+      "shot_type": "wide",
+      "camera_movement": "static",
+      "title": "Them in motion — the peak of it",
+      "narrative_function": "The joy. The height of what they are together. Now devastating because the audience knows where it goes.",
+      "emotional_function": "The most beautiful shot in the film. It should hurt to watch because of what came before.",
+      "description": "They're dancing. Not choreographed — just moving to the same song in the near-empty station. She has both earbuds in. He has one. They exist in a world that belongs only to them.",
+      "anamorphic_notes": "Wide enough to show the space — the station exists around them. Their movement is the only warm thing in the cold geometry of the platform. Oval bokeh on the idling train in the background.",
+      "prompt_brief": "man, early 30s, dark jacket collar turned up and woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, dancing spontaneously in empty metro station at night, sharing earbuds one each, warm overhead light, joy and ease between them, anamorphic wide shot, 2.39:1 letterbox, station architecture visible, idling train on far track in oval bokeh, film grain, warm amber highlights teal shadows, natural movement not posed, cinematic",
+      "characters_present": ["A", "B"]
+    },
+    {
+      "shot_number": 5,
+      "screen_position": 5,
+      "narrative_position": 6,
+      "is_pivot_shot": true,
+      "shot_type": "extreme close",
+      "camera_movement": "static",
+      "title": "Two reflections merge — then separate",
+      "narrative_function": "The image the entire commercial is built around. Two becoming one, briefly, in glass.",
+      "emotional_function": "The whole film in one frame. The viewer doesn't need any of the other shots to understand this image — but having seen the others, it's unbearable.",
+      "description": "The train window, dark, moving slowly past. Her reflection appears. His appears beside it. For exactly one second, they overlap — one face made of two. Then the train moves. They come apart. The glass clears.",
+      "anamorphic_notes": "Extreme close on the glass — the reflections are the subject, not the people. Double exposure effect through glass. Station lights visible through and behind. Heavy grain at this scale. No score at this moment — ambient sound only.",
+      "prompt_brief": "extreme close-up of dark train window glass, two human face reflections overlapping for a single moment then separating, ghostly double exposure quality in glass, station lights visible through and behind the glass, reflections of woman, late 20s, dark hair and man, early 30s, dark jacket merging into one face briefly, anamorphic extreme close, 2.39:1 letterbox, oval bokeh peripheral blur, film grain heavy, desaturated with warm reflection tones, cinematic abstract, no artifice — this is a reflection in glass",
+      "characters_present": ["A", "B"]
+    },
+    {
+      "shot_number": 6,
+      "screen_position": 6,
+      "narrative_position": 4,
+      "is_pivot_shot": false,
+      "shot_type": "medium",
+      "camera_movement": "track right",
+      "title": "Both heading somewhere — neither knows",
+      "narrative_function": "Earlier. Before the station. They are both in motion toward a point they don't know exists.",
+      "emotional_function": "Fate is mechanical. The city is a machine. Neither is aware of the other.",
+      "description": "Him on a wet street above ground, walking. The city at night. Neon and streetlight in puddles. Cut to her descending the metro escalator. Both moving without knowing.",
+      "anamorphic_notes": "Exterior night — neon in wet pavement. Oval bokeh on traffic and distant lights. Interior escalator — fluorescent below, darkness above. Two distinct palettes that share the same grade.",
+      "prompt_brief": "man, early 30s, dark jacket collar turned up, hands in coat pockets, walking through wet city street at night, neon and streetlight reflections in puddles, anamorphic medium shot, 2.39:1 letterbox, oval bokeh traffic blur background, film grain, teal shadows warm amber highlights, purposeful walk unaware of what approaches",
+      "characters_present": ["B"]
+    },
+    {
+      "shot_number": 7,
+      "screen_position": 7,
+      "narrative_position": 2,
+      "is_pivot_shot": false,
+      "shot_type": "wide",
+      "camera_movement": "static",
+      "title": "The platform before either exists in it",
+      "narrative_function": "The world before they arrived in it. The stage being set.",
+      "emotional_function": "Anticipation that the audience feels but the characters cannot.",
+      "description": "The same platform from shot 01 — but slightly earlier. A few scattered passengers. A train idling. The world going about its business.",
+      "anamorphic_notes": "Rhymes visually with shot 01 — same framing, same lens character — but alive. The difference is the presence of incidental human figures and the train.",
+      "prompt_brief": "Metro platform, late night, few scattered passengers waiting, fluorescent and warm ambient light mix, wet floor reflections, train idling at platform, anamorphic wide shot, 2.39:1 letterbox, oval bokeh background figures, film grain, teal shadows warm amber highlights, quiet anticipation, neither main character present",
+      "characters_present": []
+    },
+    {
+      "shot_number": 8,
+      "screen_position": 8,
+      "narrative_position": 3,
+      "is_pivot_shot": false,
+      "shot_type": "close",
+      "camera_movement": "slow push",
+      "title": "The almost",
+      "narrative_function": "She's on the platform. He's entering the frame behind her. He hasn't heard the song yet.",
+      "emotional_function": "In reverse, this is the moment just before everything un-happens. The audience knows what's about to occur. It's almost unbearable.",
+      "description": "She stands at the platform. One earbud in, one dangling — the song barely audible. He walks into frame behind her. He hasn't heard it. He's about to.",
+      "anamorphic_notes": "Shallow focus on her — he enters slightly soft in the background. The dangling earbud is the visual key. The almost-touch of their worlds.",
+      "prompt_brief": "woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear, standing on metro platform, man, early 30s, dark jacket collar turned up walking into frame behind her not yet seeing her, slow motion, anamorphic close shot, 2.39:1 letterbox, oval bokeh platform background, warm overhead light, film grain, teal shadows warm amber highlights, tension without drama, the second before contact",
+      "characters_present": ["A", "B"]
+    },
+    {
+      "shot_number": 9,
+      "screen_position": 9,
+      "narrative_position": 1,
+      "is_pivot_shot": false,
+      "shot_type": "close",
+      "camera_movement": "static",
+      "title": "He stops. He hears it. The first meeting.",
+      "narrative_function": "The beginning of the story — and the last shot. He hears the song. He turns. She turns. A beat. This is where it starts. The audience has already seen where it ends.",
+      "emotional_function": "Simultaneous joy and grief. The what-if lives in the space between this frame and everything that came before it. Hold the shot 4+ seconds.",
+      "description": "He hears the song from the dangling earbud. He stops. Recognition. He turns. She turns. They look at each other. The shot holds. No music swells. Just the ambient sound of the station and the song, barely there.",
+      "anamorphic_notes": "Both faces in frame, shallow depth of field pulling the station away. The dangling earbud is visible between them — the physical object that caused everything. Hold 4 seconds minimum. The what-if is in the duration of the hold.",
+      "prompt_brief": "man, early 30s, dark jacket collar turned up, hands in coat pockets and woman, late 20s, dark hair pulled back loosely, long charcoal wool coat, one earbud dangling from left ear, making first eye contact on metro platform, he has just heard music and stopped, moment of mutual recognition, faces close in anamorphic frame, oval bokeh station blurred behind both, warm fluorescent light, film grain, teal shadows warm amber highlights, held shot, pure potential, no overt emotion, 2.39:1 letterbox, shallow depth of field",
+      "characters_present": ["A", "B"]
+    }
+  ],
+  "narrative_notes": "Structure A (Reverse). The commercial begins at narrative position 9 and walks backward to position 1. The audience watches the effect before the cause. The pivot shot (position 5 in both screen and narrative order) is the center of the 3x3 grid and the emotional center of gravity. No title card required — but if used, one word in French, appearing after the final shot holds. The song playing from the earbud is never identified — original composition only, something that sounds like a memory of a song you loved once."
+}
