@@ -27,6 +27,9 @@ outputs/training-set/
 .env
 .env.local
 .env.*.local
+.mcp.json
+.cursor/mcp.json
+.vscode/mcp.json
 *.pem
 
 # OS

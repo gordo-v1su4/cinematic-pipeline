@@ -8,6 +8,8 @@ This document describes the n8n workflow architecture for the
 cinematic commercial pipeline. Each workflow is a separate n8n
 flow. They are triggered in sequence by webhooks or manual runs.
 
+> Project rule: for NocoDB access, use only the authenticated operations exposed by [`docs/NOCODB_SCHEMA.md`](./NOCODB_SCHEMA.md) for base `pp23qqevp2igvcy`, or the project MCP server. Do not add new `api/v2/tables/...` integrations to this repo.
+
 ---
 
 ## WORKFLOW OVERVIEW
@@ -65,8 +67,9 @@ WORKFLOW 7 — Training Set Export
 [Webhook / Manual Trigger]
     → [Read File: /treatments/{treatment_id}.json]
     → [Read File: /treatments/{treatment_id}_prompts.json]
-    → [HTTP Request: POST NocoDB Treatments]
-         POST https://nocodb.v1su4.dev/api/v2/tables/{{TREATMENTS_TABLE_ID}}/records
+    → [HTTP Request: POST approved NocoDB Treatments operation]
+         Resolve the exact operation from the authenticated base Swagger
+         at /api/v3/meta/bases/pp23qqevp2igvcy/swagger
          Body: {
            treatment_id, title, tagline, structure, structure_name,
            collision, director_tone, product_mode, location_type,
@@ -119,7 +122,7 @@ Body: { "prompt": {comfyui_workflow_json} }
 
     → [Function: Extract output image paths from ComfyUI history]
 
-    → [HTTP Request: POST NocoDB Shots — create record]
+    → [HTTP Request: POST approved NocoDB Shots operation]
          For each generated image:
          {
            shot_id: "{treatment_id}_s{shot_number}",
@@ -161,8 +164,8 @@ Body: { "prompt": {comfyui_workflow_json} }
            --cell-size 1280x534
            (1280x534 = 2.39:1 ratio per cell, 3840x1602 total)
 
-    → [HTTP Request: PATCH NocoDB Sequences — create record]
-         POST https://nocodb.v1su4.dev/api/v2/tables/{{SEQUENCES_TABLE_ID}}/records
+    → [HTTP Request: POST approved NocoDB Sequences operation]
+         Resolve the exact operation from the authenticated base Swagger
          {
            sequence_id: "{treatment_id}_v1",
            treatment_id,
@@ -360,7 +363,9 @@ to the LoRA training set.
 Set these up in n8n Settings → Credentials:
 
 ```
-NOCODB_API_TOKEN     → HTTP Header Auth: "xc-token: {token}"
+NOCODB_SWAGGER_URL   → https://nocodb.v1su4.dev/api/v3/meta/bases/pp23qqevp2igvcy/swagger
+NOCODB_MCP_ENDPOINT  → https://nocodb.v1su4.dev/mcp/nc6qdr2naw76ymg1
+NOCODB_MCP_TOKEN     → MCP header auth: "xc-mcp-token: {token}"
 ANTHROPIC_API_KEY    → HTTP Header Auth: "x-api-key: {key}"
 COMFYUI_BASE_URL     → http://localhost:8188 (or your ComfyUI host)
 OLLAMA_BASE_URL      → http://localhost:11434
@@ -375,8 +380,9 @@ Before running the pipeline end-to-end:
 
 ```
 [ ] NocoDB tables created (Treatments, Shots, Sequences)
-[ ] Table IDs noted and added to n8n env vars
-[ ] NocoDB API token created and stored in n8n
+[ ] Base ID confirmed as pp23qqevp2igvcy
+[ ] Project MCP token created and stored locally
+[ ] n8n HTTP calls mapped from the approved base Swagger
 [ ] ComfyUI running with NB Pro node installed
 [ ] Ollama running with qwen2-vl pulled
 [ ] /scripts/assemble_grid.py created (Pillow installed)

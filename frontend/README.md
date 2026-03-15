@@ -6,6 +6,7 @@ Next.js 15 app for the cinematic commercial pipeline. Connects to NocoDB for tre
 
 ```bash
 bun install
+cp .env.example .env.local
 bun dev
 ```
 
@@ -23,8 +24,18 @@ bun start
 1. Push to GitHub.
 2. At [vercel.com](https://vercel.com), import the repo.
 3. Set **Root Directory** to `frontend`.
-4. Add env vars if needed (`NEXT_PUBLIC_NOCODB_URL`, etc.).
+4. Add env vars from `frontend/.env.example`.
 5. Deploy.
+
+## NocoDB config
+
+This frontend is pinned to the cinematic pipeline base:
+
+- Base URL: `https://nocodb.v1su4.dev`
+- Base ID: `pp23qqevp2igvcy`
+- Swagger UI: `https://nocodb.v1su4.dev/api/v3/meta/bases/pp23qqevp2igvcy/swagger`
+
+Use only this base's authenticated Swagger operations or the project MCP server documented in [`../docs/NOCODB_SCHEMA.md`](../docs/NOCODB_SCHEMA.md).
 
 Vercel auto-detects Next.js and runs `bun run build` / `bun start`.
 

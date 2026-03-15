@@ -1,253 +1,228 @@
 # NOCODB_SCHEMA.md
-## Pipeline Database — NocoDB Self-Hosted
+## Pipeline Database Contract — NocoDB Base + MCP
 
-**Instance**: https://nocodb.v1su4.dev
-**n8n instance**: https://n8n.v1su4.dev
+**NocoDB instance**: [https://nocodb.v1su4.dev](https://nocodb.v1su4.dev)
+**Approved Swagger UI**: [https://nocodb.v1su4.dev/api/v3/meta/bases/pp23qqevp2igvcy/swagger](https://nocodb.v1su4.dev/api/v3/meta/bases/pp23qqevp2igvcy/swagger)
+**Approved Swagger JSON**: `GET /api/v3/meta/bases/pp23qqevp2igvcy/swagger.json` on the same host
+**Approved MCP endpoint**: `https://nocodb.v1su4.dev/mcp/nc6qdr2naw76ymg1`
+
+This project is pinned to a single NocoDB base:
+
+```text
+Base ID: pp23qqevp2igvcy
+```
+
+Do not use legacy `api/v2/tables/{tableId}/records` examples for this repo.
+Only use:
+
+1. The base-scoped operations exposed by the authenticated Swagger above.
+2. The NocoDB MCP server configured for this project.
 
 ---
 
-## SETUP STEPS
+## Project MCP Setup
 
-### 1. Get your API token
-NocoDB → bottom-left user icon → Account Settings → API Tokens
-→ Create token named `cinematic-pipeline`
-→ Copy token → store as n8n credential `NOCODB_API_TOKEN`
+Use the project-local MCP template at [`/.mcp.json.example`](../.mcp.json.example).
 
-### 2. Get your Base ID
-Open your NocoDB base → click base name top-left → URL will show:
-`https://nocodb.v1su4.dev/nc/p_XXXXXXXXXX/...`
-The `p_XXXXXXXXXX` is your Base ID.
+Create a local ignored file at `/.mcp.json` with your real token:
 
-### 3. Get Table IDs after creating tables
-Each table URL contains the Table ID: `m_XXXXXXXXXX`
-Note these after creating each table below.
-
----
-
-## API BASE URL PATTERN
-
-```
-https://nocodb.v1su4.dev/api/v2/tables/{tableId}/records
-```
-
-### Headers for every request
-```
-xc-token: {your-api-token}
-Content-Type: application/json
-```
-
-### Create record (POST)
-```
-POST https://nocodb.v1su4.dev/api/v2/tables/{tableId}/records
-```
-
-### Update record (PATCH)
-```
-PATCH https://nocodb.v1su4.dev/api/v2/tables/{tableId}/records
-Body: [{ "Id": {recordId}, "field": "value" }]
-```
-
-### Get records with filter (GET)
-```
-GET https://nocodb.v1su4.dev/api/v2/tables/{tableId}/records
-  ?where=(treatment_id,eq,20260314_une_seconde)
-  &limit=25
-```
-
----
-
-## TABLE SCHEMAS
-
-Create these three tables in NocoDB.
-After creation, note the Table ID (m_XXXX) from the URL for each.
-
----
-
-### TABLE 1 — Treatments
-
-**Purpose**: One row per treatment. The master record.
-
-| Field Name | Type | Notes |
-|---|---|---|
-| treatment_id | Single line text | Primary — e.g. `20260314_une_seconde` |
-| title | Single line text | e.g. `Une Seconde / One Second` |
-| tagline | Long text | One sentence emotional premise |
-| structure | Single line text | A / B / C etc |
-| structure_name | Single line text | Reverse / Forward / Loop etc |
-| collision | Single line text | physical / audible / visual etc |
-| director_tone | Single line text | Glazer / Jeunet / hybrid etc |
-| product_mode | Single line text | pure / ghost / integrated / assigned |
-| location_type | Single line text | transit / margin / interior etc |
-| location_description | Long text | Full location brief |
-| created_at | Date | Auto |
-| version | Number | Default 1 |
-| treatment_json_path | Single line text | Path to full JSON file |
-| prompts_json_path | Single line text | Path to prompts JSON file |
-| status | Single select | Options: draft / generating / evaluating / approved / training-set |
-
----
-
-### TABLE 2 — Shots
-
-**Purpose**: One row per generated image. 9 rows per treatment.
-Links to Treatments table via treatment_id.
-
-| Field Name | Type | Notes |
-|---|---|---|
-| shot_id | Single line text | `{treatment_id}_s{shot_number}` e.g. `20260314_une_seconde_s05` |
-| treatment_id | Single line text | FK → Treatments.treatment_id |
-| shot_number | Number | 1–9 |
-| screen_position | Number | 1–9 |
-| narrative_position | Number | 1–9 |
-| is_pivot_shot | Checkbox | True for shot 05 |
-| title | Single line text | Shot title |
-| prompt | Long text | Full NB Pro prompt string |
-| negative_prompt | Long text | |
-| image_path | Single line text | Local path to generated image |
-| image_url | URL | If hosted |
-| model_used | Single line text | nano-banana-pro / nano-banana-2 / flux-1-dev |
-| batch_variant | Number | Which variant was selected (1–8) |
-| generated_at | Date | |
-| anamorphic_fidelity | Decimal | 1.0–5.0 |
-| lighting_quality | Decimal | 1.0–5.0 |
-| color_grade | Decimal | 1.0–5.0 |
-| subject_sharpness | Decimal | 1.0–5.0 |
-| composition | Decimal | 1.0–5.0 |
-| shot_energy | Decimal | 1.0–5.0 |
-| per_image_average | Decimal | Auto-calculated or filled by Judge |
-| pivot_shot_score | Decimal | Null unless is_pivot_shot |
-| failure_axes | Long text | JSON array of failing axis names |
-| judge_notes | Long text | VLM evaluation notes |
-| routing | Single select | Options: approved / optimizer / expander / regenerate / human-review |
-| expander_used | Checkbox | Whether Expander was run on this shot |
-| expansion_type | Single line text | through_something / motion_evidence / etc |
-| optimizer_cycles | Number | How many Optimizer cycles ran |
-| training_set_eligible | Checkbox | |
-| pivot_archive_eligible | Checkbox | |
-
----
-
-### TABLE 3 — Sequences
-
-**Purpose**: One row per evaluated 3×3 grid. Sequence-level scores.
-Links to Treatments table via treatment_id.
-
-| Field Name | Type | Notes |
-|---|---|---|
-| sequence_id | Single line text | `{treatment_id}_v{version}` |
-| treatment_id | Single line text | FK → Treatments.treatment_id |
-| grid_image_path | Single line text | Path to assembled 3×3 PNG |
-| grid_image_url | URL | If hosted |
-| evaluated_at | Date | |
-| evaluation_model | Single line text | claude-sonnet-4-5 |
-| sequence_dynamicism | Decimal | 1.0–5.0 |
-| anamorphic_consistency | Decimal | 1.0–5.0 |
-| character_consistency | Decimal | 1.0–5.0 |
-| world_continuity | Decimal | 1.0–5.0 |
-| narrative_flow | Decimal | 1.0–5.0 |
-| sequence_average | Decimal | |
-| minimum_coverage_met | Checkbox | |
-| sequence_pass | Checkbox | All axes ≥ 4.0 |
-| blocking_axes | Long text | JSON array |
-| top_failure | Single line text | |
-| recommended_action | Single select | Options: approve / optimizer / expander / regenerate / human-review |
-| training_set_eligible | Checkbox | |
-| reference_library_used | Checkbox | Whether ref images were loaded |
-| judge_notes | Long text | |
-
----
-
-## NOCODB API CALLS USED IN n8n
-
-### Log a new treatment
-```http
-POST https://nocodb.v1su4.dev/api/v2/tables/{TREATMENTS_TABLE_ID}/records
-Headers: xc-token: {token}
-Body:
+```json
 {
-  "treatment_id": "20260314_une_seconde",
-  "title": "Une Seconde / One Second",
-  "structure": "A",
-  "structure_name": "Reverse",
-  "collision": "audible",
-  "director_tone": "hybrid",
-  "product_mode": "pure",
-  "location_type": "transit",
-  "status": "generating",
-  "treatment_json_path": "/treatments/20260314_une_seconde.json"
+  "mcpServers": {
+    "NocoDB Base - Cinematic Pipeline": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://nocodb.v1su4.dev/mcp/nc6qdr2naw76ymg1",
+        "--header",
+        "xc-mcp-token: ${NOCODB_MCP_TOKEN}"
+      ]
+    }
+  }
 }
 ```
 
-### Log a shot after generation
-```http
-POST https://nocodb.v1su4.dev/api/v2/tables/{SHOTS_TABLE_ID}/records
-Body:
-{
-  "shot_id": "20260314_une_seconde_s05",
-  "treatment_id": "20260314_une_seconde",
-  "shot_number": 5,
-  "is_pivot_shot": true,
-  "prompt": "...",
-  "image_path": "/outputs/shots/20260314_une_seconde_s05_v3.jpg",
-  "model_used": "nano-banana-pro",
-  "batch_variant": 3
-}
+### Auth details
+
+- Swagger JSON requires authenticated access. The Swagger UI loads `./swagger.json` with the `xc-auth` header from a signed-in browser session.
+- MCP uses the `xc-mcp-token` header instead.
+- Keep the real MCP token out of git. `.mcp.json`, `.cursor/mcp.json`, and `.vscode/mcp.json` are ignored.
+
+---
+
+## Storage Contract
+
+This pipeline uses local filesystem storage as the source of truth for generated assets.
+NocoDB stores metadata plus file paths and optional hosted URLs.
+
+### Required local directories
+
+```text
+/treatments
+/prompts
+/outputs/shots
+/outputs/grids
+/outputs/training-set
 ```
 
-### Update shot with scores after Judge
-```http
-PATCH https://nocodb.v1su4.dev/api/v2/tables/{SHOTS_TABLE_ID}/records
-Body:
-[{
-  "Id": {nocodb_record_id},
-  "anamorphic_fidelity": 4.5,
-  "lighting_quality": 4.0,
-  "color_grade": 4.0,
-  "subject_sharpness": 4.5,
-  "composition": 3.5,
-  "shot_energy": 2.5,
-  "per_image_average": 3.83,
-  "failure_axes": "[\"shot_energy\", \"composition\"]",
-  "routing": "expander"
-}]
+### Storage rules
+
+- `treatments/` stores the authoritative treatment JSON payloads.
+- `prompts/` stores the prompt sets derived from treatments.
+- `outputs/shots/` stores generated individual frames.
+- `outputs/grids/` stores assembled 3x3 sequence grids.
+- `outputs/training-set/` stores approved exports for LoRA training.
+- NocoDB rows should reference these paths directly and only add `image_url` or `grid_image_url` when assets are also published elsewhere.
+
+### Frontend env scaffold
+
+Use [`frontend/.env.example`](../frontend/.env.example) as the starting point for `frontend/.env.local`.
+
+```bash
+cp frontend/.env.example frontend/.env.local
 ```
 
-### Update treatment status
-```http
-PATCH https://nocodb.v1su4.dev/api/v2/tables/{TREATMENTS_TABLE_ID}/records
-Body:
-[{
-  "Id": {nocodb_record_id},
-  "status": "approved"
-}]
-```
+Recommended values:
 
-### Query shots needing reprocessing
-```http
-GET https://nocodb.v1su4.dev/api/v2/tables/{SHOTS_TABLE_ID}/records
-  ?where=(routing,eq,expander)~and(treatment_id,eq,20260314_une_seconde)
+```dotenv
+NEXT_PUBLIC_NOCODB_BASE_URL=https://nocodb.v1su4.dev
+NEXT_PUBLIC_NOCODB_BASE_ID=pp23qqevp2igvcy
+NEXT_PUBLIC_NOCODB_SWAGGER_URL=https://nocodb.v1su4.dev/api/v3/meta/bases/pp23qqevp2igvcy/swagger
+
+PIPELINE_STORAGE_ROOT=/Users/robertspaniolo/Documents/Github/cinematic-pipeline
+PIPELINE_TREATMENTS_DIR=/Users/robertspaniolo/Documents/Github/cinematic-pipeline/treatments
+PIPELINE_PROMPTS_DIR=/Users/robertspaniolo/Documents/Github/cinematic-pipeline/prompts
+PIPELINE_SHOTS_DIR=/Users/robertspaniolo/Documents/Github/cinematic-pipeline/outputs/shots
+PIPELINE_GRIDS_DIR=/Users/robertspaniolo/Documents/Github/cinematic-pipeline/outputs/grids
+PIPELINE_TRAINING_SET_DIR=/Users/robertspaniolo/Documents/Github/cinematic-pipeline/outputs/training-set
 ```
 
 ---
 
-## ENV VARIABLES FOR n8n
+## Local Setup Checklist
 
-Store these as n8n credentials / environment variables:
+### 1. Create the directories
 
+```bash
+mkdir -p prompts outputs/shots outputs/grids outputs/training-set
 ```
-NOCODB_BASE_URL=https://nocodb.v1su4.dev
-NOCODB_API_TOKEN={your-token}
-NOCODB_TREATMENTS_TABLE_ID={m_XXXX after creating table}
-NOCODB_SHOTS_TABLE_ID={m_XXXX after creating table}
-NOCODB_SEQUENCES_TABLE_ID={m_XXXX after creating table}
+
+### 2. Configure local MCP access
+
+Set your token in shell config or a local secret store:
+
+```bash
+export NOCODB_MCP_TOKEN='replace-with-real-token'
 ```
+
+Then copy the template:
+
+```bash
+cp .mcp.json.example .mcp.json
+```
+
+### 3. Verify the approved Swagger target
+
+Open:
+
+```text
+https://nocodb.v1su4.dev/api/v3/meta/bases/pp23qqevp2igvcy/swagger
+```
+
+If `swagger.json` returns `401 Authentication required`, that is expected until you are signed in or attaching the required auth header.
 
 ---
 
-## SWAGGER UI
+## Data Model
 
-To explore and test all API endpoints interactively:
-```
-https://nocodb.v1su4.dev/api/v2/meta/tables/{tableId}/swagger
-```
-Or access from within NocoDB: base name → Rest APIs
+The project still uses three logical collections:
+
+1. `Treatments`
+2. `Shots`
+3. `Sequences`
+
+Keep the existing business fields from the earlier draft schema, but resolve the exact create/read/update operations from the approved base Swagger or the MCP server rather than hardcoding legacy v2 routes.
+
+### Treatments
+
+- `treatment_id`
+- `title`
+- `tagline`
+- `structure`
+- `structure_name`
+- `collision`
+- `director_tone`
+- `product_mode`
+- `location_type`
+- `location_description`
+- `created_at`
+- `version`
+- `treatment_json_path`
+- `prompts_json_path`
+- `status`
+
+### Shots
+
+- `shot_id`
+- `treatment_id`
+- `shot_number`
+- `screen_position`
+- `narrative_position`
+- `is_pivot_shot`
+- `title`
+- `prompt`
+- `negative_prompt`
+- `image_path`
+- `image_url`
+- `model_used`
+- `batch_variant`
+- `generated_at`
+- `anamorphic_fidelity`
+- `lighting_quality`
+- `color_grade`
+- `subject_sharpness`
+- `composition`
+- `shot_energy`
+- `per_image_average`
+- `pivot_shot_score`
+- `failure_axes`
+- `judge_notes`
+- `routing`
+- `expander_used`
+- `expansion_type`
+- `optimizer_cycles`
+- `training_set_eligible`
+- `pivot_archive_eligible`
+
+### Sequences
+
+- `sequence_id`
+- `treatment_id`
+- `grid_image_path`
+- `grid_image_url`
+- `evaluated_at`
+- `evaluation_model`
+- `sequence_dynamicism`
+- `anamorphic_consistency`
+- `character_consistency`
+- `world_continuity`
+- `narrative_flow`
+- `sequence_average`
+- `minimum_coverage_met`
+- `sequence_pass`
+- `blocking_axes`
+- `top_failure`
+- `recommended_action`
+- `training_set_eligible`
+- `reference_library_used`
+- `judge_notes`
+
+---
+
+## Operational Rule
+
+For this repository, NocoDB integration means:
+
+1. Prefer MCP for agent-driven reads and writes.
+2. If HTTP is required, use only operations documented under the approved base Swagger.
+3. Store generated files locally first; log stable filesystem paths in NocoDB.

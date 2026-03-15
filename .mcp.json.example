@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "NocoDB Base - Cinematic Pipeline": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://nocodb.v1su4.dev/mcp/nc6qdr2naw76ymg1",
+        "--header",
+        "xc-mcp-token: ${NOCODB_MCP_TOKEN}"
+      ]
+    }
+  }
+}
