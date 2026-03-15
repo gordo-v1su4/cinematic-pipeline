@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "mcp-remote",
-        "https://nocodb.v1su4.dev/mcp/nc6qdr2naw76ymg1",
+        "https://nocodb.v1su4.dev/mcp/ncv2pmim5e1eg48k",
         "--header",
         "xc-mcp-token: ${NOCODB_MCP_TOKEN}"
       ]

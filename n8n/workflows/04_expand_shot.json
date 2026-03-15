@@ -1,0 +1,60 @@
+{
+  "name": "Cinematic Pipeline - Expand Shot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "expand-shot",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-expand-shot",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "language": "javaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "const item = $input.first();\nconst body = item.json.body ?? item.json;\nconst shotId = body.shot_id;\nif (!shotId) {\n  throw new Error('shot_id is required');\n}\n\nconst backendBaseUrl = $env.BACKEND_BASE_URL;\nif (!backendBaseUrl) {\n  throw new Error('BACKEND_BASE_URL is required');\n}\n\nconst shot = await $helpers.httpRequest({\n  method: 'GET',\n  url: `${backendBaseUrl}/api/shots/${shotId}`,\n  json: true,\n});\n\nconst fields = shot.fields ?? {};\nreturn [{\n  json: {\n    ok: true,\n    workflow: 'expand-shot',\n    shot_id: fields.shot_id ?? shotId,\n    treatment_id: fields.treatment_id ?? null,\n    title: fields.title ?? null,\n    image_path: fields.image_path ?? null,\n    routing: fields.routing ?? null,\n    failure_axes: fields.failure_axes ?? null,\n    expansion_type: fields.expansion_type ?? null,\n    expander_used: fields.expander_used ?? false,\n    message: 'Shot payload prepared for expansion workflow'\n  }\n}];"
+      },
+      "id": "code-expand-shot",
+      "name": "Prepare Expander Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        580,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Expander Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "versionId": "5fd1cf20-b2fc-4660-acf0-faf17aa1a5af",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "cinematic-expand-shot",
+  "tags": []
+}

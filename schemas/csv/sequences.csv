@@ -1,0 +1,2 @@
+sequence_id,treatment_id,grid_image_path,grid_image_url,evaluated_at,evaluation_model,sequence_dynamicism,anamorphic_consistency,character_consistency,world_continuity,narrative_flow,sequence_average,minimum_coverage_met,sequence_pass,blocking_axes,top_failure,recommended_action,training_set_eligible,reference_library_used,judge_notes
+20260314_une_seconde_v1,20260314_une_seconde,/outputs/grids/20260314_une_seconde_grid.png,,2026-03-14T23:55:00Z,claude-sonnet-4-6,,,,,,,,false,,,,,false,

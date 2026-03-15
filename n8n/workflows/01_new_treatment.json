@@ -1,0 +1,60 @@
+{
+  "name": "Cinematic Pipeline - New Treatment",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-treatment",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-new-treatment",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "language": "javaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "const item = $input.first();\nconst body = item.json.body ?? item.json;\nconst treatmentId = body.treatment_id;\nif (!treatmentId) {\n  throw new Error('treatment_id is required');\n}\n\nconst backendBaseUrl = $env.BACKEND_BASE_URL;\nconst nocodbBaseUrl = $env.NOCODB_BASE_URL;\nconst nocodbBaseId = $env.NOCODB_BASE_ID;\nconst nocodbToken = $env.NOCODB_API_TOKEN;\nconst treatmentsTableId = $env.NOCODB_TREATMENTS_TABLE_ID;\nconst shotsTableId = $env.NOCODB_SHOTS_TABLE_ID;\n\nif (!backendBaseUrl || !nocodbBaseUrl || !nocodbBaseId || !nocodbToken || !treatmentsTableId || !shotsTableId) {\n  throw new Error('Missing required n8n env vars for backend/NocoDB access');\n}\n\nconst headers = {\n  'xc-token': nocodbToken,\n  'Content-Type': 'application/json',\n};\n\nconst treatment = await $helpers.httpRequest({\n  method: 'GET',\n  url: `${backendBaseUrl}/api/treatments/${treatmentId}/json`,\n  json: true,\n});\n\nconst prompts = await $helpers.httpRequest({\n  method: 'GET',\n  url: `${backendBaseUrl}/api/treatments/${treatmentId}/prompts`,\n  json: true,\n});\n\nconst treatmentsUrl = `${nocodbBaseUrl}/api/v3/data/${nocodbBaseId}/${treatmentsTableId}/records`;\nconst shotsUrl = `${nocodbBaseUrl}/api/v3/data/${nocodbBaseId}/${shotsTableId}/records`;\n\nconst existingTreatment = await $helpers.httpRequest({\n  method: 'GET',\n  url: treatmentsUrl,\n  json: true,\n  headers,\n  qs: {\n    pageSize: 1,\n    where: `(treatment_id,eq,${treatmentId})`,\n  },\n});\n\nconst treatmentFields = {\n  treatment_id: treatment.id,\n  title: treatment.title,\n  tagline: treatment.tagline,\n  structure: treatment.variables?.structure ?? null,\n  structure_name: treatment.variables?.structure_name ?? null,\n  collision: treatment.variables?.collision ?? null,\n  director_tone: treatment.variables?.director_tone ?? null,\n  product_mode: treatment.variables?.product_mode ?? null,\n  location_type: treatment.location?.type ?? null,\n  location_description: treatment.location?.specific_place ?? null,\n  created_at: treatment.created_at,\n  version: String(treatment.version ?? 1),\n  treatment_json_path: `/treatments/${treatmentId}.json`,\n  prompts_json_path: `/treatments/${treatmentId}_prompts.json`,\n  status: 'generating',\n};\n\nlet treatmentRecordId = null;\nif (existingTreatment.records?.length) {\n  treatmentRecordId = existingTreatment.records[0].id;\n  await $helpers.httpRequest({\n    method: 'PATCH',\n    url: treatmentsUrl,\n    json: true,\n    headers,\n    body: {\n      id: treatmentRecordId,\n      fields: treatmentFields,\n    },\n  });\n} else {\n  const createdTreatment = await $helpers.httpRequest({\n    method: 'POST',\n    url: treatmentsUrl,\n    json: true,\n    headers,\n    body: {\n      fields: treatmentFields,\n    },\n  });\n  treatmentRecordId = createdTreatment.records?.[0]?.id ?? null;\n}\n\nconst existingShots = await $helpers.httpRequest({\n  method: 'GET',\n  url: shotsUrl,\n  json: true,\n  headers,\n  qs: {\n    pageSize: 50,\n    where: `(treatment_id,eq,${treatmentId})`,\n  },\n});\n\nlet createdShots = 0;\nif (!existingShots.records?.length) {\n  const shotDescriptions = new Map((treatment.shots ?? []).map((shot) => [shot.shot_number, shot]));\n  const shotRecords = (prompts.shots ?? []).map((shotPrompt) => {\n    const shotSpec = shotDescriptions.get(shotPrompt.shot_number) ?? {};\n    return {\n      fields: {\n        shot_id: `${treatmentId}_s${String(shotPrompt.shot_number).padStart(2, '0')}`,\n        treatment_id: treatmentId,\n        shot_number: String(shotPrompt.shot_number),\n        screen_position: String(shotPrompt.screen_position ?? shotSpec.screen_position ?? shotPrompt.shot_number),\n        narrative_position: String(shotSpec.narrative_position ?? shotPrompt.shot_number),\n        is_pivot_shot: String(Boolean(shotSpec.is_pivot_shot ?? false)),\n        title: shotPrompt.title ?? shotSpec.title ?? `Shot ${shotPrompt.shot_number}`,\n        prompt: shotPrompt.prompt ?? null,\n        negative_prompt: shotPrompt.negative_prompt ?? prompts.negative_prompt_universal ?? null,\n        image_path: null,\n        image_url: null,\n        model_used: prompts.model_config?.primary_model ?? 'nano-banana-pro',\n        batch_variant: '1',\n        generated_at: prompts.generated_at ?? treatment.created_at,\n        expander_used: 'false',\n        expansion_type: null,\n        optimizer_cycles: '0',\n        training_set_eligible: 'false',\n        pivot_archive_eligible: 'false'\n      }\n    };\n  });\n\n  if (shotRecords.length) {\n    const createdShotsResponse = await $helpers.httpRequest({\n      method: 'POST',\n      url: shotsUrl,\n      json: true,\n      headers,\n      body: shotRecords,\n    });\n    createdShots = createdShotsResponse.records?.length ?? shotRecords.length;\n  }\n}\n\nreturn [{\n  json: {\n    ok: true,\n    workflow: 'new-treatment',\n    treatment_id: treatmentId,\n    treatment_record_id: treatmentRecordId,\n    shots_existing: existingShots.records?.length ?? 0,\n    shots_created: createdShots,\n    message: 'Treatment ingestion completed'\n  }\n}];"
+      },
+      "id": "code-new-treatment",
+      "name": "Create Treatment And Shots",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        580,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create Treatment And Shots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "versionId": "1c09e38f-0b8c-4a91-a50b-a3da54e19901",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "cinematic-new-treatment",
+  "tags": []
+}

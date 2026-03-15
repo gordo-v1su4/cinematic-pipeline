@@ -1,0 +1,60 @@
+{
+  "name": "Cinematic Pipeline - Evaluate Treatment",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "evaluate-treatment",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-evaluate-treatment",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "language": "javaScript",
+        "mode": "runOnceForAllItems",
+        "jsCode": "const item = $input.first();\nconst body = item.json.body ?? item.json;\nconst treatmentId = body.treatment_id;\nif (!treatmentId) {\n  throw new Error('treatment_id is required');\n}\n\nconst backendBaseUrl = $env.BACKEND_BASE_URL;\nif (!backendBaseUrl) {\n  throw new Error('BACKEND_BASE_URL is required');\n}\n\nconst treatment = await $helpers.httpRequest({ method: 'GET', url: `${backendBaseUrl}/api/treatments/${treatmentId}/json`, json: true });\nconst shotsResponse = await $helpers.httpRequest({ method: 'GET', url: `${backendBaseUrl}/api/treatments/${treatmentId}/shots`, json: true });\nconst sequencesResponse = await $helpers.httpRequest({ method: 'GET', url: `${backendBaseUrl}/api/treatments/${treatmentId}/sequences`, json: true });\n\nconst shots = shotsResponse.records ?? [];\nif (shots.length < 9) {\n  throw new Error(`Expected 9 shots for ${treatmentId}, found ${shots.length}`);\n}\n\nconst missingImages = shots.filter((shot) => !shot.fields?.image_path);\nif (missingImages.length) {\n  return [{\n    json: {\n      ok: false,\n      workflow: 'evaluate-treatment',\n      treatment_id: treatmentId,\n      message: 'Evaluation blocked: some shots do not have image_path yet',\n      missing_shot_ids: missingImages.map((shot) => shot.fields?.shot_id ?? shot.id),\n      sequence_count: sequencesResponse.records?.length ?? 0,\n      ready_for_judge: false\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ok: true,\n    workflow: 'evaluate-treatment',\n    treatment_id: treatmentId,\n    treatment_title: treatment.title,\n    shot_count: shots.length,\n    sequence_count: sequencesResponse.records?.length ?? 0,\n    grid_candidates: (sequencesResponse.records ?? []).map((record) => record.fields?.grid_image_path).filter(Boolean),\n    ready_for_judge: true,\n    message: 'Inputs prepared for judge/evaluation workflow'\n  }\n}];"
+      },
+      "id": "code-evaluate-treatment",
+      "name": "Prepare Evaluation Inputs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        580,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Evaluation Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "versionId": "11041490-ef32-46af-8745-ad4b84765671",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "cinematic-evaluate-treatment",
+  "tags": []
+}

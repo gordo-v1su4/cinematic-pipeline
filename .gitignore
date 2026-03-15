@@ -30,6 +30,7 @@ outputs/training-set/
 .mcp.json
 .cursor/mcp.json
 .vscode/mcp.json
+robyn.env
 *.pem
 
 # OS

@@ -1,0 +1,3 @@
+shot_id,treatment_id,shot_number,screen_position,narrative_position,is_pivot_shot,title,prompt,negative_prompt,image_path,image_url,model_used,batch_variant,generated_at,anamorphic_fidelity,lighting_quality,color_grade,subject_sharpness,composition,shot_energy,per_image_average,pivot_shot_score,failure_axes,judge_notes,routing,expander_used,expansion_type,optimizer_cycles,training_set_eligible,pivot_archive_eligible
+20260314_une_seconde_s01,20260314_une_seconde,1,1,9,false,The Platform,,,,,,1,2026-03-14T23:50:00Z,,,,,,,,,,,,false,,0,false,false
+20260314_une_seconde_s05,20260314_une_seconde,5,5,5,true,The Sound,,,,,,1,2026-03-14T23:50:00Z,,,,,,,,,,,,,,0,false,false

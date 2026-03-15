@@ -1,0 +1,11 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - ../outputs:/app/outputs
+      - ../treatments:/app/treatments
+    restart: unless-stopped

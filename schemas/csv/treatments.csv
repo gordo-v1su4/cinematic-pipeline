@@ -1,0 +1,2 @@
+treatment_id,title,tagline,structure,structure_name,collision,director_tone,product_mode,location_type,location_description,created_at,version,treatment_json_path,prompts_json_path,status
+20260314_une_seconde,Une Seconde / One Second,A woman hears a sound that changes everything,A,Reverse,audible,hybrid,pure,transit,A rain-soaked Tokyo metro platform at 11:47pm,2026-03-14T23:47:00Z,1,/treatments/20260314_une_seconde.json,/prompts/20260314_une_seconde.json,draft
